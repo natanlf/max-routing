@@ -1,2 +1,11 @@
 <p>User with ID {{ user.id }} loaded.</p>
 <p>User name is {{ user.name }}</p>
+<hr>
+<!-- Dessa forma conseguimos usar a rota sem problemas mas não conseguimos atualizar os dados no html
+  O motivo disso é porque verificamos via snapshot do Angular/router no ngOnInit,
+  ou seja, só pegamos o parametros ao iniciar o componente, quando clicamos o botão abaixo o angular
+  não destroi o componente e o recria, pois custaria desempenho para renderizar.
+  Temos uma solução para reagir a essas mudanças que não é o snapshot, vamos usar o route.params.
+  Assim nos inscrevemos e observamos mudanças, é um observable
+-->
+<a [routerLink]="['/users', 10, 'Anna']">Load Anna (10)</a>
