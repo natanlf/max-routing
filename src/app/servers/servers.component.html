@@ -10,6 +10,10 @@
     </div>
   </div>
   <div class="col-xs-12 col-sm-4">
+    <!--Cuidado com caminho relativo, se colocar sem a barra,
+      vai procurar a rota em servers/servers, assim teremos um erro-->
+    <!--<a routerLink="servers">Reload Page</a>-->
+    <a routerLink="/servers">Reload Page</a>
     <app-edit-server></app-edit-server>
     <hr>
     <app-server></app-server>
