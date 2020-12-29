@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { ServersService } from '../servers.service';
 
@@ -12,9 +13,12 @@ export class EditServerComponent implements OnInit {
   serverName = '';
   serverStatus = '';
 
-  constructor(private serversService: ServersService) { }
+  constructor(
+    private serversService: ServersService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.getParams();
     this.server = this.serversService.getServer(1);
     this.serverName = this.server.name;
     this.serverStatus = this.server.status;
@@ -22,6 +26,16 @@ export class EditServerComponent implements OnInit {
 
   onUpdateServer() {
     this.serversService.updateServer(this.server.id, {name: this.serverName, status: this.serverStatus});
+  }
+
+  getParams() {
+    /* Com snapshot só conseguimos pegar os parametros na inicialização do componente */
+    this.route.queryParams.subscribe(params => {
+      console.log(params);
+    });
+    this.route.fragment.subscribe(params => {
+      console.log(params);
+    })
   }
 
 }
