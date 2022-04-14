@@ -9,11 +9,11 @@
         </li>
         <!--Nesse caso o caminho relativo funciona mas cuidado com isso, melhor usar o absoluto-->
         <!--<li role="presentation"><a routerLink="servers">Servers</a></li>-->
-        <li role="presentation">
-          <a routerLinkActive="active" routerLink="/servers">Servers</a>
+        <li role="presentation" routerLinkActive="active">
+          <a routerLink="/servers">Servers</a>
         </li>
-        <li role="presentation">
-          <a routerLinkActive="active" [routerLink]="['/users']">Users</a>
+        <li role="presentation" routerLinkActive="active">
+          <a [routerLink]="['/users']">Users</a>
         </li>
       </ul>
     </div>
