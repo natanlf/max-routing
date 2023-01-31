@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 
 import { ServersService } from '../servers.service';
 
@@ -17,13 +17,15 @@ export class ServerComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    const id = +this.route.snapshot.params['id'];
+    //estamos usando o resolver para buscar o server pelo id. server é o mesmo nome especificado na rota
+    this.route.data.subscribe((data: Data) => this.server = data.server);
+    /*const id = +this.route.snapshot.params['id'];
     this.server = this.serversService.getServer(id);
     this.route.params.subscribe(
       (params: Params) => {
         this.server = this.serversService.getServer(+params['id']);
       }
-    )
+    )*/
   }
 
   onEdit() {
