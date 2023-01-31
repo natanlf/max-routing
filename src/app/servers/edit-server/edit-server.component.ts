@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs/observable';
 
 import { ServersService } from '../servers.service';
 
@@ -13,10 +14,12 @@ export class EditServerComponent implements OnInit {
   serverName = '';
   serverStatus = '';
   allowEdit = false;
+  changesSaved = false;
 
   constructor(
     private serversService: ServersService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
     this.getParams();
@@ -27,6 +30,8 @@ export class EditServerComponent implements OnInit {
 
   onUpdateServer() {
     this.serversService.updateServer(this.server.id, {name: this.serverName, status: this.serverStatus});
+    this.changesSaved = true;
+    this.router.navigate(['../'], {relativeTo: this.route}); //ao autlizar devemos voltar a rota
   }
 
   getParams() {
@@ -37,6 +42,20 @@ export class EditServerComponent implements OnInit {
     this.route.fragment.subscribe(params => {
       console.log(params);
     })
+  }
+
+  /*Isso aqui será acionado ao tentar sair da edição, assim conseguimos saber se devemos deixar a rota
+  Se o canDectivate retornar true, deve-se deixar a rota */
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if(!this.allowEdit) {
+      return true;
+    }
+    //verifica se alguma alteração foi feita e se não foi salva, se for o caso abre o dialog
+    if((this.serverName !== this.server.name || this.serverStatus !== this.server.status) && !this.changesSaved) {
+      return confirm('Do you want to discard the changes?');
+    } else {
+      return true;
+    }
   }
 
 }
